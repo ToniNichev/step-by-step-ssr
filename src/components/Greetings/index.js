@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+const styles = require('./styles.scss');
 
 class Greetings extends Component {
 
@@ -36,7 +37,7 @@ class Greetings extends Component {
       element = <h2>Type new name:<input type="text" id='inputField' value={this.state.userName} onChange={(el) => { this.usernameChanged(el);}} /><button onClick={() =>{ this.doneEditUsername() }}>done</button></h2>
     return (
       <div>
-        <div className="wrapper">
+        <div className={styles.wrapper}>
           {element}
         </div>
       </div>);

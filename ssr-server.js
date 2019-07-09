@@ -27,6 +27,8 @@ app.get('/*', (req, res) => {
     <head>
       <meta charSet="utf-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <link rel="stylesheet" type="text/css" href="dist/2.css" />
+      <link rel="stylesheet" type="text/css" href="dist/0.css" />
       <title>TEST</title>
     </head>
     <body>
@@ -35,8 +37,7 @@ app.get('/*', (req, res) => {
       </div>
       <script type="text/javascript" src="dist/main-bundle.js" charSet="UTF-8" /></script>
       <script type="text/javascript" src="dist/2-bundle.js" charSet="UTF-8" /></script>
-      <script type="text/javascript" src="dist/1-bundle.js" charSet="UTF-8" /></script>
-      
+      <script type="text/javascript" src="dist/0-bundle.js" charSet="UTF-8" /></script>
     </body>
   </html>    
     

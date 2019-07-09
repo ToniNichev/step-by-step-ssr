@@ -1,11 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-
+const styles = require('./styles.scss');
 
 const Header = ( {title} ) => (
   <div>
-    <div className="wrapper">      
+    <div className={styles.wrapper}>      
       <h2>{ title }</h2>
       <ul>
         <li><Link to='/home'>HOME</Link></li>
