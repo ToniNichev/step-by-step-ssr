@@ -10,7 +10,6 @@ module.exports = {
   output: {
     path: path.resolve('dist'),
     filename: '[name]-bundle.js',
-    chunkFilename: '[name]-bundle.js',
     publicPath: '/dist/',
   }, 
   module: {
@@ -67,7 +66,7 @@ module.exports = {
     ]
   },
   plugins: [
-    new webpack.DefinePlugin({ 'process.env' : 'development' } ),  
+    new webpack.DefinePlugin({ 'process.env' : 'production' } ),  
     new ExtractCssChunks(
       {
         // Options similar to the same options in webpackOptions.output

@@ -6,9 +6,8 @@ const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const path = require('path');
 
 module.exports = {
-  mode: 'development',
+  mode: 'production',
   target: 'node',
-  devtool: 'eval-source-map',
   externals: [nodeExternals()],
   entry: [ 
     './ssr-server.js',
@@ -43,13 +42,7 @@ module.exports = {
               localIdentName: '[folder]-[local]',
               sourceMap: true
             }
-          },
-          {
-            loader: 'postcss-loader',
-            options: {
-              plugins: () => [require('autoprefixer')()],
-            },
-          },          
+          },         
           {
             loader: 'sass-loader',
             options: {
@@ -78,7 +71,7 @@ module.exports = {
     ]
   },
   plugins: [
-    new webpack.DefinePlugin({ 'process.env' : 'development' } ),        
+    new webpack.DefinePlugin({ 'process.env' : 'production' } ),        
     new ExtractCssChunks(
       {
         // Options similar to the same options in webpackOptions.output
