@@ -13,13 +13,8 @@ app.use('/dist', express.static('dist')); // to serve frontent prod static files
 app.use('/favicon.ico', express.static('./src/images/favicon.ico'));
 
 app.get('/*', (req, res) => {
-
-  const mainApp = (
-    <App req={req} />
-  );    
-
  
-    const content = ReactDOMServer.renderToString(mainApp);
+    const content = ReactDOMServer.renderToString(<App req={req} />);
   
     res.status(200);
     res.send(`<!doctype html>
@@ -27,21 +22,16 @@ app.get('/*', (req, res) => {
     <head>
       <meta charSet="utf-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
-      <link rel="stylesheet" type="text/css" href="dist/2.css" />
-      <link rel="stylesheet" type="text/css" href="dist/0.css" />
+      <link rel="stylesheet" type="text/css" href="dist/main.css">
       <title>TEST</title>
     </head>
-    <body>
+    <body cz-shortcut-listen="true">
       <div id="root"/>
         ${content}
       </div>
       <script type="text/javascript" src="dist/main-bundle.js" charSet="UTF-8" /></script>
-      <script type="text/javascript" src="dist/2-bundle.js" charSet="UTF-8" /></script>
-      <script type="text/javascript" src="dist/0-bundle.js" charSet="UTF-8" /></script>
     </body>
-  </html>    
-    
-    `);
+  </html>`);
     res.end(); 
 });
 
