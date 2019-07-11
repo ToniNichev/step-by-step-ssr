@@ -7,4 +7,4 @@ const server = new WebpackDevServer(compiler, {
   hot: true,
   publicPath: config.output.publicPath
 });
-server.listen(8080, 'localhost', function() {});
+server.listen(3006, 'localhost', function() {});

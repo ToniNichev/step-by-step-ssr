@@ -1,7 +1,7 @@
 const webpack =require('webpack');
 const nodeExternals = require('webpack-node-externals');
 const ExtractCssChunks = require("extract-css-chunks-webpack-plugin");
-const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+const LoadablePlugin = require('@loadable/webpack-plugin');
 
 const path = require('path');
 
@@ -72,6 +72,7 @@ module.exports = {
   },
   plugins: [
     new webpack.DefinePlugin({ 'process.env' : 'production' } ),        
+    new LoadablePlugin(),
     new ExtractCssChunks(
       {
         // Options similar to the same options in webpackOptions.output
@@ -80,6 +81,6 @@ module.exports = {
         chunkFilename: "[id].css",
         orderWarning: true, // Disable to remove warnings about conflicting order between imports
       },     
-    ),         
+    )
   ]
 };

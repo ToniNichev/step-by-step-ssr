@@ -3,6 +3,7 @@ import express from 'express';
 import ReactDOMServer from 'react-dom/server';
 import Html from './html.js';
 import App from './src/components/App/ssr-index';
+//import { ChunkExtractor } from '@loadable/server'
 
 
 const PORT = 3006;
