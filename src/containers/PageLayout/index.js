@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import ComponentList from './ComponentList';
 import PagesLayoutData from './pages-layout-data';
-import Loading from '../../components/Loading';
-const styles = require('./styles.scss');
+
 
 class PageLayout extends Component {
     constructor(props) {

@@ -4,6 +4,9 @@ import ReactDOMServer from 'react-dom/server';
 import Html from './html.js';
 import App from './src/components/App/ssr-index';
 import Loadable from 'react-loadable';
+import manifest from './dist/loadable-manifest.json';
+
+import { getBundles } from 'react-loadable/webpack';
 
 
 const PORT = 3006;
@@ -15,7 +18,15 @@ app.use('/favicon.ico', express.static('./src/images/favicon.ico'));
 
 app.get('/*', (req, res) => {
 
-    const content = ReactDOMServer.renderToString(<App req={req} />);
+    const modules = []  
+    const content = ReactDOMServer.renderToString(
+      <Loadable.Capture report={moduleName => modules.push(moduleName)}>
+        <App req={req} />
+      </Loadable.Capture>
+    );
+      
+
+      const bundles = getBundles(manifest, modules); 
   
     res.status(200);
     res.send(`<!doctype html>
@@ -23,18 +34,19 @@ app.get('/*', (req, res) => {
     <head>
       <meta charSet="utf-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
-      <link rel="stylesheet" type="text/css" href="dist/main.css">
-      <link rel="stylesheet" type="text/css" href="dist/1.css">
-      <link rel="stylesheet" type="text/css" href="dist/2.css">
       <title>TEST</title>
     </head>
     <body cz-shortcut-listen="true">
       <div id="root"/>
         ${content}
       </div>
-      <script type="text/javascript" src="dist/main-bundle.js" charSet="UTF-8" /></script>
-      <script type="text/javascript" src="dist/Header-bundle.js" charSet="UTF-8" /></script>
-      <script type="text/javascript" src="dist/Home-bundle.js" charSet="UTF-8" /></script>
+
+
+      ${bundles
+        .map(({ file }) => `<script src="/${file}"></script>`)
+        .join('\n')}
+
+      <script src="/server-bundle.js"></script>
     </body>
   </html>`);
     res.end(); 
