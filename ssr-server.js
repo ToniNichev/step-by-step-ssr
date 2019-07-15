@@ -43,10 +43,10 @@ app.get('/*', (req, res) => {
 
 
       ${bundles
-        .map(({ file }) => `<script src="/${file}"></script>`)
+        .map(({ file }) => `<script src="/dist/${file}"></script>`)
         .join('\n')}
 
-      <script src="/server-bundle.js"></script>
+      <script src="/dist/main-bundle.js"></script>
     </body>
   </html>`);
     res.end(); 

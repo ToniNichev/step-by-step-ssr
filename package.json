@@ -37,7 +37,7 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.2.5",
-    "extract-css-chunks-webpack-plugin": "^4.5.2",
+    "extract-css-chunks-webpack-plugin": "^4.5.6",
     "file-loader": "^3.0.1",
     "graphql": "^14.4.2",
     "optimize-css-assets-webpack-plugin": "^5.0.1",
