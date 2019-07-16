@@ -1,4 +1,5 @@
 const path = require('path');
+const nodeExternals = require('webpack-node-externals');
 const ExtractCssChunks = require("extract-css-chunks-webpack-plugin");
 
 module.exports = {
@@ -6,6 +7,7 @@ module.exports = {
     server: './ssr-server.js'
   },
   target: 'node',
+  externals: [nodeExternals()],
   module: {
     rules: [
       {
@@ -16,29 +18,9 @@ module.exports = {
 
       // SCSS
       {
-        test:/\.(s*)css$/, 
-        use: [
-          {
-            loader:ExtractCssChunks.loader
-          },  
-          {
-            loader: 'css-loader',
-            options: {
-              modules: true,
-              importLoaders: 2,
-              localIdentName: '[folder]-[local]',
-              sourceMap: true
-            }
-          },         
-          {
-            loader: 'sass-loader',
-            options: {
-              outputStyle: 'expanded',
-              sourceMap: false
-            }
-          }
-        ],
-      },      
+        test: /\.scss$/,
+        loader: 'css-loader'
+      },    
 
     ]
   },
