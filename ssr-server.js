@@ -35,16 +35,16 @@ app.get('/*', (req, res) => {
       <meta charSet="utf-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
       <title>TEST</title>
+      <!-- Page specifig bundle chunks -->
+      ${bundles
+        .map(({ file }) => `<script src="/dist/${file}"></script>`)
+        .join('\n')}
+      <!-- =========================== -->
     </head>
     <body cz-shortcut-listen="true">
       <div id="root"/>
         ${content}
       </div>
-
-
-      ${bundles
-        .map(({ file }) => `<script src="/dist/${file}"></script>`)
-        .join('\n')}
 
       <script src="/dist/main-bundle.js"></script>
     </body>

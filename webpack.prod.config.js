@@ -1,5 +1,6 @@
 const webpack =require('webpack');
 const path = require('path');
+const ExtractCssChunks = require("extract-css-chunks-webpack-plugin");
 
 const { ReactLoadablePlugin } = require('react-loadable/webpack');
 
@@ -23,11 +24,14 @@ module.exports = {
         }
       },  
       
+
       // SCSS
       {
-        test: /\.scss$/,
+        test:/\.(s*)css$/, 
         use: [
-          'style-loader',
+          {
+            loader:ExtractCssChunks.loader,
+          },  
           {
             loader: 'css-loader',
             options: {
@@ -38,12 +42,6 @@ module.exports = {
             }
           },
           {
-            loader: 'postcss-loader',
-            options: {
-              plugins: () => [require('autoprefixer')()],
-            },
-          },
-          {
             loader: 'sass-loader',
             options: {
               outputStyle: 'expanded',
@@ -52,6 +50,7 @@ module.exports = {
           }
         ],
       },      
+
     ],
     
   },
@@ -59,6 +58,15 @@ module.exports = {
     new webpack.DefinePlugin({ 'process.env' : 'production' } ),  
     new ReactLoadablePlugin({
       filename: './dist/loadable-manifest.json'
-    }),            
+    }),    
+    new ExtractCssChunks(
+      {
+        // Options similar to the same options in webpackOptions.output
+        // both options are optional
+        filename: "[name].css",
+        chunkFilename: "[id].css",
+        orderWarning: true, // Disable to remove warnings about conflicting order between imports
+      }
+    )             
   ]
 };

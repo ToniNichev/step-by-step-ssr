@@ -1,8 +1,11 @@
 const path = require('path');
+const webpack =require('webpack');
 const nodeExternals = require('webpack-node-externals');
 const ExtractCssChunks = require("extract-css-chunks-webpack-plugin");
+const Loadable  = require('react-loadable/webpack');
 
 module.exports = {
+  mode: 'production',
   entry: {
     server: './ssr-server.js'
   },
@@ -18,9 +21,29 @@ module.exports = {
 
       // SCSS
       {
-        test: /\.scss$/,
-        loader: 'css-loader'
-      },    
+        test:/\.(s*)css$/, 
+        use: [
+          {
+            loader:ExtractCssChunks.loader,
+          },  
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true,
+              importLoaders: 2,
+              localIdentName: '[folder]-[local]',
+              sourceMap: true
+            }
+          },
+          {
+            loader: 'sass-loader',
+            options: {
+              outputStyle: 'expanded',
+              sourceMap: true
+            }
+          }
+        ],
+      },   
 
     ]
   },
@@ -31,6 +54,10 @@ module.exports = {
   
   plugins: [
     
+    new webpack.DefinePlugin({ 'process.env' : 'production' } ),    
+    new Loadable.ReactLoadablePlugin({
+      filename: './dist/loadable-manifest.json',
+    }),    
     new ExtractCssChunks(
       {
         // Options similar to the same options in webpackOptions.output
@@ -39,6 +66,10 @@ module.exports = {
         chunkFilename: "[id].css",
         orderWarning: true, // Disable to remove warnings about conflicting order between imports
       },     
-    ),         
+    ),   
+    // on the server we still need one bundle
+    new webpack.optimize.LimitChunkCountPlugin({
+      maxChunks: 1
+  })          
   ]  
 }
