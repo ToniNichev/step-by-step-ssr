@@ -36,7 +36,15 @@ app.get('/*', (req, res) => {
     <head>
       <meta charSet="utf-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
-      <title>TEST</title>
+      <title>Server Side Rendering and Bundle Splitting</title>
+      <link
+      href="/dist/main.css"
+      rel="stylesheet"
+      as="style"
+      media="screen, projection"
+      type="text/css"
+      charSet="UTF-8"
+    />
       <!-- Page specific CSS bundle chunks -->      
       ${
         cssBundles.map( (bundle) => (`
