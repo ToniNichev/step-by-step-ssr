@@ -1,7 +1,6 @@
 const webpack =require('webpack');
 const path = require('path');
 const ExtractCssChunks = require("extract-css-chunks-webpack-plugin");
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 const { ReactLoadablePlugin } = require('react-loadable/webpack');
 
