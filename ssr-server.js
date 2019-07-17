@@ -25,8 +25,10 @@ app.get('/*', (req, res) => {
       </Loadable.Capture>
     );
       
-
-      const bundles = getBundles(manifest, modules); 
+    // Extract CSS and JS bundles
+    const bundles = getBundles(manifest, modules); 
+    const cssBundles = bundles.filter(bundle => bundle && bundle.file.split('.').pop() === 'css');
+    const jsBundles = bundles.filter(bundle => bundle && bundle.file.split('.').pop() === 'js');
   
     res.status(200);
     res.send(`<!doctype html>
@@ -35,8 +37,20 @@ app.get('/*', (req, res) => {
       <meta charSet="utf-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
       <title>TEST</title>
-      <!-- Page specifig bundle chunks -->
-      ${bundles
+      <!-- Page specific CSS bundle chunks -->      
+      ${
+        cssBundles.map( (bundle) => (`
+          <link
+            href="${bundle.publicPath}"
+            rel="stylesheet"
+            as="style"
+            media="screen, projection"
+            type="text/css"
+            charSet="UTF-8"
+          />`)).join('\n')
+      }
+      <!-- Page specific JS bundle chunks -->
+      ${jsBundles
         .map(({ file }) => `<script src="/dist/${file}"></script>`)
         .join('\n')}
       <!-- =========================== -->
@@ -45,7 +59,6 @@ app.get('/*', (req, res) => {
       <div id="root"/>
         ${content}
       </div>
-
       <script src="/dist/main-bundle.js"></script>
     </body>
   </html>`);

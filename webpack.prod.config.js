@@ -1,6 +1,7 @@
 const webpack =require('webpack');
 const path = require('path');
 const ExtractCssChunks = require("extract-css-chunks-webpack-plugin");
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 const { ReactLoadablePlugin } = require('react-loadable/webpack');
 
@@ -31,6 +32,10 @@ module.exports = {
         use: [
           {
             loader:ExtractCssChunks.loader,
+            options: {
+              hot: false,
+              reloadAll: false
+            },
           },  
           {
             loader: 'css-loader',
@@ -64,9 +69,10 @@ module.exports = {
         // Options similar to the same options in webpackOptions.output
         // both options are optional
         filename: "[name].css",
-        chunkFilename: "[id].css",
+        chunkFilename: "[name].css",
         orderWarning: true, // Disable to remove warnings about conflicting order between imports
       }
     )             
-  ]
+  ],
+
 };
