@@ -1,6 +1,7 @@
 const webpack =require('webpack');
 const path = require('path');
 const ExtractCssChunks = require("extract-css-chunks-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const { ReactLoadablePlugin } = require('react-loadable/webpack');
 
@@ -10,7 +11,6 @@ module.exports = {
     './src/index.js',
   ],
   output: {
-    path: path.resolve('dist'),
     filename: '[name]-bundle.js',
     publicPath: '/dist/',
   }, 
@@ -30,11 +30,7 @@ module.exports = {
         test:/\.(s*)css$/, 
         use: [
           {
-            loader:ExtractCssChunks.loader,
-            options: {
-              hot: false,
-              reloadAll: false
-            },
+            loader:MiniCssExtractPlugin.loader
           },  
           {
             loader: 'css-loader',
@@ -80,7 +76,7 @@ module.exports = {
     new ReactLoadablePlugin({
       filename: './dist/loadable-manifest.json'
     }),    
-    new ExtractCssChunks(
+    new MiniCssExtractPlugin(
       {
         // Options similar to the same options in webpackOptions.output
         // both options are optional

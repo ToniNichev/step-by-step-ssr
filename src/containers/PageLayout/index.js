@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import ComponentList from './ComponentList';
 import PagesLayoutData from './pages-layout-data';
+import { graphql } from 'react-apollo';
+import query from './query';
 
 
 class PageLayout extends Component {
@@ -9,6 +11,8 @@ class PageLayout extends Component {
     } 
   
     render() {
+      console.log("getPageByUrl  >>>>>", this.props.data.getPageByUrl);
+
       const url = this.props.history.location.pathname;
       const pageComponentsList = PagesLayoutData[url];
 
@@ -22,4 +26,12 @@ class PageLayout extends Component {
     }
 }
 
-export default PageLayout;
+export default graphql(query, {
+  options(props) {
+    return {
+      variables: {
+        url: props.history.location.pathname
+      },
+    };
+  },
+})(PageLayout);

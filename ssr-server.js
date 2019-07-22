@@ -5,6 +5,10 @@ import Html from './html.js';
 import App from './src/components/App/ssr-index';
 import Loadable from 'react-loadable';
 import manifest from './dist/loadable-manifest.json';
+import { getDataFromTree } from "react-apollo";
+import { ApolloClient } from 'apollo-client';
+import { HttpLink } from 'apollo-link-http';
+import { InMemoryCache } from 'apollo-cache-inmemory';
 
 import { getBundles } from 'react-loadable/webpack';
 
@@ -18,6 +22,16 @@ app.use('/favicon.ico', express.static('./src/images/favicon.ico'));
 
 app.get('/*', (req, res) => {
 
+  const GRAPHQL_URL = "http://localhost:4001/graphql";
+
+  const client = new ApolloClient({
+    ssrMode: true,
+    link: new HttpLink({ uri:  GRAPHQL_URL }),
+    cache: new InMemoryCache(),
+    fetch: fetch
+  });  
+
+  getDataFromTree(<App req={req} />).then(() => {  
     const modules = []  
     const content = ReactDOMServer.renderToString(
       <Loadable.Capture report={moduleName => modules.push(moduleName)}>
@@ -71,6 +85,7 @@ app.get('/*', (req, res) => {
     </body>
   </html>`);
     res.end(); 
+  });
 });
 
 Loadable.preloadAll().then(() => {

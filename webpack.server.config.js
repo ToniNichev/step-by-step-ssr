@@ -2,6 +2,7 @@ const path = require('path');
 const webpack =require('webpack');
 const nodeExternals = require('webpack-node-externals');
 const ExtractCssChunks = require("extract-css-chunks-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const Loadable  = require('react-loadable/webpack');
 
 module.exports = {
@@ -24,7 +25,7 @@ module.exports = {
         test:/\.(s*)css$/, 
         use: [
           {
-            loader:ExtractCssChunks.loader,
+            loader:MiniCssExtractPlugin.loader
           },  
           {
             loader: 'css-loader',
@@ -75,13 +76,11 @@ module.exports = {
     new Loadable.ReactLoadablePlugin({
       filename: './dist/loadable-manifest.json',
     }),    
-    new ExtractCssChunks(
+    new MiniCssExtractPlugin(
       {
         // Options similar to the same options in webpackOptions.output
         // both options are optional
         filename: "[name].css",
-        chunkFilename: "[id].css",
-        orderWarning: true, // Disable to remove warnings about conflicting order between imports
       },     
     ),   
     // on the server we still need one bundle
