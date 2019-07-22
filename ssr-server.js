@@ -40,13 +40,10 @@ app.get('/*', (req, res) => {
   );
 
 
-  renderToStringWithData(mainApp).then( (html) => {
-    console.log(html);    
-
-
+  renderToStringWithData(mainApp).then( (HTML_content) => {
+    console.log(HTML_content);    
 
     getDataFromTree(mainApp).then(() => {  
-      const content = html;
         
       // Extract CSS and JS bundles
       const bundles = getBundles(manifest, modules); 
@@ -88,7 +85,7 @@ app.get('/*', (req, res) => {
       </head>
       <body cz-shortcut-listen="true">
         <div id="root"/>
-          ${content}
+          ${HTML_content}
         </div>
         <script src="/dist/main-bundle.js"></script>
       </body>
