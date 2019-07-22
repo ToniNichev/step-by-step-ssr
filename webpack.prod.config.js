@@ -6,7 +6,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const { ReactLoadablePlugin } = require('react-loadable/webpack');
 
 module.exports = {
-  mode: 'production',
+  mode: 'development',
   entry: [ 
     './src/index.js',
   ],
