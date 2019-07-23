@@ -1,6 +1,4 @@
 const webpack =require('webpack');
-const path = require('path');
-const ExtractCssChunks = require("extract-css-chunks-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const { ReactLoadablePlugin } = require('react-loadable/webpack');
