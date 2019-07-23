@@ -1,6 +1,5 @@
 const webpack =require('webpack');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-
 const { ReactLoadablePlugin } = require('react-loadable/webpack');
 
 module.exports = {
