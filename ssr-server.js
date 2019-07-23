@@ -40,13 +40,14 @@ app.get('/*', (req, res) => {
   );
 
 
-  renderToStringWithData(mainApp).then( (HTML_content) => {
+  renderToStringWithData(<App req={req} />).then( (HTML_content) => {
     console.log(HTML_content);    
 
     getDataFromTree(mainApp).then(() => {  
         
       // Extract CSS and JS bundles
       const bundles = getBundles(manifest, modules); 
+      console.log(bundles);
       const cssBundles = bundles.filter(bundle => bundle && bundle.file.split('.').pop() === 'css');
       const jsBundles = bundles.filter(bundle => bundle && bundle.file.split('.').pop() === 'js');
     

@@ -6,7 +6,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const Loadable  = require('react-loadable/webpack');
 
 module.exports = {
-  mode: 'production',
+  mode: 'development',
   entry: {
     server: './ssr-server.js'
   },
