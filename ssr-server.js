@@ -52,6 +52,7 @@ app.get('/*', (req, res) => {
 
     getDataFromTree(mainApp).then(() => {  
         
+      const initialState = apolloClient.extract();
       // Extract CSS and JS bundles
       const bundles = getBundles(manifest, modules); 
       //console.log(bundles);
