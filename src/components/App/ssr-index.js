@@ -11,17 +11,9 @@ import fetch from 'isomorphic-fetch';
 import styles from './styles.scss';
 
 
-export default ( {req} ) => {
-  const context = {};
-  const GRAPHQL_URL = "http://localhost:4001/graphql";
+export default ( {req, client} ) => {
 
-  const client = new ApolloClient({
-    ssrMode: true,
-    link: new HttpLink({ uri:  GRAPHQL_URL }),
-    cache: new InMemoryCache(),
-    fetch: fetch
-  });  
-  
+  const context = {};
   return (
     <div className={styles.appWrapper}>
       <h1>React is running</h1>

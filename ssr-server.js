@@ -25,7 +25,7 @@ app.get('/*', (req, res) => {
 
   const GRAPHQL_URL = "http://localhost:4001/graphql";
 
-  const apolloClient = new ApolloClient({
+  const client = new ApolloClient({
     ssrMode: true,
     link: createHttpLink({
      uri: GRAPHQL_URL,
@@ -41,18 +41,18 @@ app.get('/*', (req, res) => {
   const modules = [];
   const mainApp = (
     <Loadable.Capture report={moduleName => modules.push(moduleName)}>
-      <App req={req} apolloClient={apolloClient} />
+      <App req={req} client={client} />
     </Loadable.Capture>    
   );
 
-  renderToStringWithData(<App req={req} apolloClient={apolloClient} />).then( (HTML_content) => {
+  renderToStringWithData(<App req={req} client={client} />).then( (HTML_content) => {
     //console.log(HTML_content);  
 
-    //console.log("########", client);
 
     getDataFromTree(mainApp).then(() => {  
         
-      const initialState = apolloClient.extract();
+      console.log("########", client.cache.extract());
+      
       // Extract CSS and JS bundles
       const bundles = getBundles(manifest, modules); 
       //console.log(bundles);
@@ -97,7 +97,7 @@ app.get('/*', (req, res) => {
           ${HTML_content}
         </div>
         <script>
-        window.__APOLLO_STATE__=${JSON.stringify(apolloClient.extract())};
+        window.__APOLLO_STATE__=${JSON.stringify(client.cache.extract())};
         </script>
       
         <script src="/dist/main-bundle.js"></script>
