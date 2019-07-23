@@ -7,7 +7,13 @@ import { HttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import styles from './styles.scss';
 
-export default ( req, client ) => {
+const GRAPHQL_URL = "http://localhost:4001/graphql";
+const client = new ApolloClient({
+  link: new HttpLink({ uri:  GRAPHQL_URL }),
+  cache: new InMemoryCache().restore(window.__APOLLO_STATE__),
+}); 
+
+export default ( {req} ) => {
   return (
     <div className={styles.appWrapper}>
       <h1>React is running</h1>

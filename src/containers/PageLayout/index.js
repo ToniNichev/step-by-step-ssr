@@ -12,6 +12,9 @@ class PageLayout extends Component {
   } 
 
   render() {
+    if(!this.props.data.getPageByUrl) {
+      return (<Loading />);
+    }  
     
     //console.log("getPageByUrl  >>>>>", this.props.data.getPageByUrl);
     const allLayout = this.props.data.getPageByUrl.layout.map((layoutList) => {
