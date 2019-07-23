@@ -7,16 +7,11 @@ import { HttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import styles from './styles.scss';
 
-export default ( {req} ) => {
-  const GRAPHQL_URL = "http://localhost:4001/graphql";
-  const client = new ApolloClient({
-    link: new HttpLink({ uri:  GRAPHQL_URL }),
-    cache: new InMemoryCache()
-  });  
+export default ( {req, apolloClient} ) => {
   return (
     <div className={styles.appWrapper}>
       <h1>React is running</h1>
-      <ApolloProvider client={client}>      
+      <ApolloProvider client={apolloClient}>      
         <BrowserRouter>
           <Switch>
             <Route exact path="*" component={PageLayout} />  

@@ -10,7 +10,7 @@ import { ApolloClient } from 'apollo-client';
 import { HttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { renderToStringWithData } from "react-apollo"
-
+import { createHttpLink } from 'apollo-link-http';
 import { getBundles } from 'react-loadable/webpack';
 
 
@@ -25,29 +25,36 @@ app.get('/*', (req, res) => {
 
   const GRAPHQL_URL = "http://localhost:4001/graphql";
 
-  const client = new ApolloClient({
+  const apolloClient = new ApolloClient({
     ssrMode: true,
-    link: new HttpLink({ uri:  GRAPHQL_URL }),
-    cache: new InMemoryCache(),
-    fetch: fetch
-  });  
+    link: createHttpLink({
+     uri: GRAPHQL_URL,
+     fetch: fetch,
+     credentials: 'same-origin',
+     headers: {
+       cookie: req.header('Cookie'),
+     },
+   }), 
+    cache: new InMemoryCache()
+  });    
 
   const modules = [];
   const mainApp = (
     <Loadable.Capture report={moduleName => modules.push(moduleName)}>
-      <App req={req} />
+      <App req={req} apolloClient={apolloClient} />
     </Loadable.Capture>    
   );
 
+  renderToStringWithData(<App req={req} apolloClient={apolloClient} />).then( (HTML_content) => {
+    //console.log(HTML_content);  
 
-  renderToStringWithData(<App req={req} />).then( (HTML_content) => {
-    console.log(HTML_content);    
+    //console.log("########", client);
 
     getDataFromTree(mainApp).then(() => {  
         
       // Extract CSS and JS bundles
       const bundles = getBundles(manifest, modules); 
-      console.log(bundles);
+      //console.log(bundles);
       const cssBundles = bundles.filter(bundle => bundle && bundle.file.split('.').pop() === 'css');
       const jsBundles = bundles.filter(bundle => bundle && bundle.file.split('.').pop() === 'js');
     
@@ -88,6 +95,10 @@ app.get('/*', (req, res) => {
         <div id="root"/>
           ${HTML_content}
         </div>
+        <script>
+        window.__APOLLO_STATE__=${JSON.stringify(apolloClient.extract())};
+        </script>
+      
         <script src="/dist/main-bundle.js"></script>
       </body>
     </html>`);
