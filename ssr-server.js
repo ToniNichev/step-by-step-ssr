@@ -1,7 +1,5 @@
 import React from 'react';
 import express from 'express';
-import ReactDOMServer from 'react-dom/server';
-import Html from './html.js';
 import App from './src/components/App/ssr-index';
 import Loadable from 'react-loadable';
 import manifest from './dist/loadable-manifest.json';
