@@ -43,14 +43,10 @@ app.get('/*', (req, res) => {
     </Loadable.Capture>    
   );
 
+  // Execute all queries and fetch the results before continue.
   renderToStringWithData(<App req={req} client={client} />).then( (HTML_content) => {
-    //console.log(HTML_content);  
-
-
-    getDataFromTree(mainApp).then(() => {  
-        
-      console.log("########", client.cache.extract());
-      
+    // Get list of all JS and CSS files
+    getDataFromTree(mainApp).then(() => {                
       // Extract CSS and JS bundles
       const bundles = getBundles(manifest, modules); 
       //console.log(bundles);

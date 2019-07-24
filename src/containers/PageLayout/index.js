@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import ComponentList from './ComponentList';
-import PagesLayoutData from './pages-layout-data';
 import Loading from '../../components/Loading';
 import query from './query';
 import { graphql } from 'react-apollo';
@@ -16,7 +15,6 @@ class PageLayout extends Component {
       return (<Loading />);
     }  
     
-    //console.log("getPageByUrl  >>>>>", this.props.data.getPageByUrl);
     const allLayout = this.props.data.getPageByUrl.layout.map((layoutList) => {
       const layout = layoutList.components.map((component, id , components) => {
         const componentName = component.name;        
