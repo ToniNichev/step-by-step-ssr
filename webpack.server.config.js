@@ -68,13 +68,9 @@ module.exports = {
     filename: '[name]-bundle.js',
     path: path.resolve(__dirname, 'server-build')
   },
-  
   plugins: [
     
-    new webpack.DefinePlugin({ 'process.env' : 'production' } ),    
-    new Loadable.ReactLoadablePlugin({
-      filename: './dist/loadable-manifest.json',
-    }),    
+    new webpack.DefinePlugin({ 'process.env' : 'production' } ),       
     new MiniCssExtractPlugin(
       {
         // Options similar to the same options in webpackOptions.output
